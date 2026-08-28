@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Donkey Kong Country</title>
+  <title>Jogar SNES</title>
   <style>
     * { box-sizing: border-box; }
     body, html {
@@ -30,12 +30,19 @@
   </div>
 
   <script>
+    // ===== CONFIGURAÇÃO =====
+    // Troque o caminho abaixo pela sua ROM (formato .zip, .smc ou .sfc)
     EJS_player = "#game";
-    EJS_core = "snes";
-    EJS_gameName = "Donkey Kong Country";
-    EJS_gameUrl = "roms/dkc.zip";
+    EJS_core = "snes";                     // core do SNES (snes9x)
+    EJS_gameName = "Donkeu Kong Country";     // nome exibido no emulador
+    EJS_gameUrl = "roms/dkc.zip";           // <-- caminho da sua ROM aqui
     EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+
+    // Opcional: cor de destaque da interface do emulador
     EJS_color = "#e60012";
+
+    // Opcional: iniciar automaticamente sem tela de "play"
+    // EJS_startOnLoaded = true;
   </script>
   <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
 </body>
