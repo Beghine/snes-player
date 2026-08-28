@@ -3,15 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Jogar SNES</title>
+  <title>Donkey Kong Country</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body, html {
       margin: 0;
       padding: 0;
       background: #000;
       height: 100%;
       overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     #game-container {
       width: 100%;
@@ -22,6 +23,58 @@
       width: 100%;
       height: 100%;
     }
+
+    /* ===== Painel branco atrás dos controles ===== */
+    #controls-panel-bg {
+      display: none; /* só aparece em telas touch, via JS */
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 34vh;
+      max-height: 260px;
+      background: #f4f4f6;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      box-shadow: 0 -6px 24px rgba(0,0,0,0.35);
+      z-index: 5;
+      pointer-events: none;
+    }
+    #controls-panel-bg::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 4px;
+      border-radius: 2px;
+      background: #d0d0d5;
+    }
+
+    /* Linha inferior: Select / Start */
+    #controls-labels-row {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 14px;
+      z-index: 6;
+      justify-content: center;
+      gap: 60px;
+      pointer-events: none;
+    }
+    #controls-labels-row span {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #8a8a90;
+      font-weight: 600;
+    }
+
+    @media (pointer: coarse) {
+      #controls-panel-bg, #controls-labels-row { display: block; }
+      #controls-labels-row { display: flex; }
+    }
   </style>
 </head>
 <body>
@@ -29,20 +82,36 @@
     <div id="game"></div>
   </div>
 
-  <script>
-    // ===== CONFIGURAÇÃO =====
-    // Troque o caminho abaixo pela sua ROM (formato .zip, .smc ou .sfc)
-    EJS_player = "#game";
-    EJS_core = "snes";                     // core do SNES (snes9x)
-    EJS_gameName = "Donkeu Kong Country";     // nome exibido no emulador
-    EJS_gameUrl = "roms/dkc.zip";           // <-- caminho da sua ROM aqui
-    EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+  <!-- painel decorativo atrás do controle touch -->
+  <div id="controls-panel-bg"></div>
+  <div id="controls-labels-row">
+    <span>SELECT</span>
+    <span>START</span>
+  </div>
 
-    // Opcional: cor de destaque da interface do emulador
+  <script>
+    EJS_player = "#game";
+    EJS_core = "snes";
+    EJS_gameName = "Donkey Kong Country";
+    EJS_gameUrl = "roms/dkc.zip";
+    EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
     EJS_color = "#e60012";
 
-    // Opcional: iniciar automaticamente sem tela de "play"
-    // EJS_startOnLoaded = true;
+    // ===== Controle touch customizado (layout real do SNES) =====
+    EJS_VirtualGamepadSettings = [
+      // D-pad
+      { type: "dpad", location: "left", left: "50%", top: "45%" },
+
+      // Diamante de botões (posições reais do SNES: Y-esquerda, X-topo, A-direita, B-baixo)
+      { type: "button", text: "X", id: "x", location: "right", left: 40, top: 0,  bold: true, color: "#3E7BFA", input_value: 1 },
+      { type: "button", text: "Y", id: "y", location: "right", left: 0,  top: 40, bold: true, color: "#33C759", input_value: 9 },
+      { type: "button", text: "A", id: "a", location: "right", left: 81, top: 40, bold: true, color: "#F03A3A", input_value: 0 },
+      { type: "button", text: "B", id: "b", location: "right", left: 40, top: 80, bold: true, color: "#F5C518", input_value: 8 },
+
+      // Start / Select (mantidos aqui também para funcionar; visual real é o rótulo customizado acima)
+      { type: "button", text: "", id: "select", location: "center", left: -25, top: 90, fontSize: 1, input_value: 2 },
+      { type: "button", text: "", id: "start",  location: "center", left: 25, top: 90, fontSize: 1, input_value: 3 }
+    ];
   </script>
   <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
 </body>
