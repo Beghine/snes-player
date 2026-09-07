@@ -53,16 +53,20 @@
     // EJS_startOnLoaded = true;
     EJS_fullscreenOnLoaded = true;
 
-    EJS_ready = function() {
-    // tenta travar a orientação em paisagem (funciona no Android/Chrome)
-    if (screen.orientation && screen.orientation.lock) {
+   EJS_fullscreenOnLoaded = false; // deixa false, controlamos manualmente
+
+EJS_onGameStart = function() {
+  document.body.classList.add('game-started');
+
+  // tenta travar a orientação em paisagem (funciona no Android/Chrome)
+  if (screen.orientation && screen.orientation.lock) {
     screen.orientation.lock('landscape').catch(function(e) {
-    console.log('Não foi possível travar a orientação:', e);
+      console.log('Não foi possível travar a orientação:', e);
     });
-    }
-    };
+  }
+};
     @media screen and (max-width: 926px) and (orientation: portrait) {
-  #game-container {
+  body.game-started #game-container {
     transform: rotate(90deg);
     transform-origin: left top;
     width: 100vh;
